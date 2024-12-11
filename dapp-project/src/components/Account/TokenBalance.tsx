@@ -11,7 +11,7 @@ const TokenBalance: React.FC = () => {
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
       const myToken = new ethers.Contract(
-        '0x...', // Replace with the deployed contract address
+        '093784972862', 
         MyTokenABI,
         signer
       );
