@@ -15,14 +15,14 @@ app.use(bodyParser.json());
 
 
 // Route handlers
-import authRoutes from './routes/auth';
+import tellegramRoutes from './routes/telegram';
 import blockchainRoutes from './routes/blockchain';
 
-app.use('/', authRoutes);
+app.use('/api/telegram', tellegramRoutes);
 app.use('/blockchain', blockchainRoutes);
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello from the server!');
+  res.send('Hello from the backend server!');
 });
 
 // Start the server

@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Input } from '../UI/Input';
 import { Button } from '../UI/Button';
+import { useNavigate } from 'react-router-dom';
 
 interface PasscodeSetupProps {
   onPasscodeSet: (passcode: string) => void;
 }
 
 const PasscodeSetup: React.FC<PasscodeSetupProps> = ({ onPasscodeSet }) => {
+  const navigate = useNavigate();
   const [passcode, setPasscode] = useState('');
   const [confirmPasscode, setConfirmPasscode] = useState('');
   const [error, setError] = useState('');
@@ -22,6 +24,7 @@ const PasscodeSetup: React.FC<PasscodeSetupProps> = ({ onPasscodeSet }) => {
       return;
     }
     onPasscodeSet(passcode);
+    navigate('/profile');
   };
 
   return (

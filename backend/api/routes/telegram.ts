@@ -4,8 +4,8 @@ import { initializeUsername, sendOtp, verifyOtp } from '../controllers/authContr
 
 const router: Router = express.Router();
 
-router.post("/api/telegram/authenticate", initializeUsername);
-router.post("/api/telegram/send-otp", sendOtp);
-router.post("/api/telegram/verify-otp", verifyOtp);
+router.post("/authenticate", initializeUsername);
+router.post("/send-otp", sendOtp);
+router.post("/verify-otp", verifyOtp);
 
 export default router; 

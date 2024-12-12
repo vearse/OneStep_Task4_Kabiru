@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AuthService } from '../../services/AuthService';
 import { AuthMethod } from '../../types/AuthMethod';
+import { useNavigate } from 'react-router-dom';
 
 interface IHandleResponse {
   status: boolean;
@@ -9,11 +10,13 @@ interface IHandleResponse {
 }
 
 const TelegramAuth: React.FC = () => {
-  const [step, setStep] = useState<'identifier' | 'otp'>('otp',);
+  const navigate = useNavigate();
+  const [step, setStep] = useState<'identifier' | 'otp'>('identifier');
   const [identifier, setIdentifier] = useState('');
   const [telegramUserId, setTelegramUserId] = useState('');
+  const [error, setError] = useState('');
   const [otp, setOtp] = useState('');
-
+ 
   const handleIdentifierSubmit = async () => {
     try {
       const response:any = await AuthService.initiateAuthByUsername(identifier);
@@ -23,7 +26,8 @@ const TelegramAuth: React.FC = () => {
         await AuthService.initiateAuth(AuthMethod.TELEGRAM, telegramUserId);
         setStep('otp');
       }
-    } catch (error) {
+    } catch (error: any) {
+      setError(error.message);
       console.error('OTP Sending Failed', error);
     }
   };
@@ -31,7 +35,9 @@ const TelegramAuth: React.FC = () => {
   const handleOTPVerification = async () => {
     const isVerified = await AuthService.verifyAuth(AuthMethod.TELEGRAM, telegramUserId, otp);
     if (isVerified) {
-      // Proceed to next registration/login step
+      navigate('/setup');
+    } else {
+      setError('Verification failed');
     }
   };
 
@@ -53,11 +59,12 @@ const TelegramAuth: React.FC = () => {
                   onChange={(e) => setIdentifier(e.target.value)}
                   className="w-full px-4 py-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
+                { error && <p className='pb-4' style={{color: 'red'}}>{error}</p>}
                 <button
                   onClick={handleIdentifierSubmit}
                   className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                  Send OTP
+                  Login
                 </button>
               </div>
             </div>

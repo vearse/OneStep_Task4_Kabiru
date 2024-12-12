@@ -2,17 +2,18 @@ import React, { useState } from 'react';
 import { Input } from '../UI/Input';
 import { Button } from '../UI/Button';
 import { User } from '../../types/User';
+import { useNavigate } from 'react-router-dom';
 
 interface RegistrationProps {
   onRegister: (userData: Omit<User, 'osId'>) => void;
 }
 
 const Registration: React.FC<RegistrationProps> = ({ onRegister }) => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [referralCode, setReferralCode] = useState('');
-  const [step, setStep] = useState(1);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,6 +23,7 @@ const Registration: React.FC<RegistrationProps> = ({ onRegister }) => {
       dateOfBirth,
       referralCode,
     });
+    navigate('/passcode-setup');
   };
 
   return (
